@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using UsersMicroService.Data;
+using Microsoft.OpenApi.Models;
 
 namespace UsersMicroService
 {
@@ -29,6 +30,16 @@ namespace UsersMicroService
 
             services.AddDbContext<UsersMicroServiceContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("UsersMicroServiceContext")));
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "News - User management HTTP API",
+                    Version = "v1",
+                    Description = "The User Management Microservice HTTP API. This is a Data-Driven/CRUD microservice"
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -46,6 +57,12 @@ namespace UsersMicroService
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwagger()
+                .UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Users API V1");
+                });
         }
     }
 }
