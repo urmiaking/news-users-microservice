@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using UsersMicroService.Data;
 
 namespace UsersMicroService
 {
@@ -24,6 +26,9 @@ namespace UsersMicroService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<UsersMicroServiceContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("UsersMicroServiceContext")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

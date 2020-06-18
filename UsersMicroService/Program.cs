@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using UsersMicroService.Data;
+using UsersMicroService.Logics;
 
 namespace UsersMicroService
 {
@@ -13,7 +15,7 @@ namespace UsersMicroService
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().MigrateDatabase<UsersMicroServiceContext>().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
