@@ -84,7 +84,7 @@ namespace UsersMicroService.Controllers
             return users;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Users/PutUsers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsers(int id, User users)
         {
@@ -114,7 +114,7 @@ namespace UsersMicroService.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Users/PostUsers
         [HttpPost]
         public async Task<ActionResult<User>> PostUsers(User users)
         {
@@ -124,7 +124,7 @@ namespace UsersMicroService.Controllers
             return CreatedAtAction("GetUsers", new { id = users.Id }, users);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Users/DeleteUsers/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<User>> DeleteUsers(int id)
         {
