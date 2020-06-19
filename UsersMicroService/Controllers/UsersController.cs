@@ -10,7 +10,7 @@ using UsersMicroService.Models;
 
 namespace UsersMicroService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -21,18 +21,60 @@ namespace UsersMicroService.Controllers
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Users/GetUsers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/Users/GetUsers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUsers(int id)
         {
             var users = await _context.Users.FindAsync(id);
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return users;
+        }
+
+        // GET: api/Users/GetUsersByEmail/{email}
+        [HttpGet("{email}")]
+        public async Task<ActionResult<User>> GetUsersByEmail(string email)
+        {
+            var users = await _context.Users.FirstOrDefaultAsync(a => a.Email.Equals(email));
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return users;
+        }
+
+        // GET: api/Users/GetUsersByActivationCode/{activationCode}
+        [HttpGet("{activationCode}")]
+        public async Task<ActionResult<User>> GetUsersByActivationCode(string activationCode)
+        {
+            var users = await _context.Users.FirstOrDefaultAsync(a => a.ActivationCode.Equals(activationCode));
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return users;
+        }
+        
+        // GET: api/Users/GetUsersByActivationCode/{activationCode}
+        [HttpGet("{resetPasswordCode}")]
+        public async Task<ActionResult<User>> GetUsersByResetPasswordCode(string resetPasswordCode)
+        {
+            var users = await _context.Users.FirstOrDefaultAsync(a => a.ResetPasswordCode.Equals(resetPasswordCode));
 
             if (users == null)
             {
